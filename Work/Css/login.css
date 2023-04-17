@@ -1,0 +1,61 @@
+:root {
+    --background-color: #cc2b5e;
+    --background-color-2: -webkit-linear-gradient(to right, #cc2b5e, #753a88);
+    --background-color-3: linear-gradient(to right, #cc2b5e, #753a88);
+    --background-color-4:f8f9fa;
+}
+
+/* section {
+    background: var(--background-color);
+    background: var(--background-color-2);
+    background: var(--background-color-3);
+} */
+
+/* .container{
+    background-color: cadetblue;
+}
+.row{
+    background-color:#753a88
+}
+.col{
+    background-color: #cc2b5e;
+} */
+
+body {
+    background: var(--background-color-4);
+  }
+
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login-form {
+  background: white;
+  padding: 5rem;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+.login-image {
+  max-width: 100%;
+  height: auto;
+}
+/* make the button take margin top and padding with suitable  value */
+.btn {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+}
+.error {
+  text-align: center;
+  color: red;
+  color: #dc3545;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
+  background-color: #f8d7da;
+  padding: 10px;
+  border-radius: 5px;
+}
+  
+
