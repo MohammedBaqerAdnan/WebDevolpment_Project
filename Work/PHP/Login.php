@@ -1,3 +1,14 @@
+<?php function validate_input($data)
+{
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,12 +34,14 @@
             <h2 class="mb-4">Login</h2>
             <?php if (isset($_GET['error'])) { ?>
               <p class="small fw-bold mt-2 text-danger error">
-                <?php echo $_GET['error']; ?>
+                <?php $error = validate_input($_GET['error']); ?>
+                <?php echo $error; ?>
               </p>
             <?php } ?>
             <?php if (isset($_GET['success'])) { ?>
-              <p class="small success">
-                <?php echo $_GET['success']; ?>
+              <p class="small fw-bold mt-2 text-success success">
+                <?php $success = validate_input($_GET['success']); ?>
+                <?php echo $success; ?>
               </p>
             <?php } ?>
             <div class="form-group">

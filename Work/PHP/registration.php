@@ -1,3 +1,13 @@
+<?php function validate_input($data)
+{
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,7 +33,11 @@
             <h2 class="mb-4">Registration</h2>
             <?php if (isset($_GET['error'])) { ?>
               <p class="small fw-bold mt-2 text-danger error">
-                <?php echo $_GET['error']; ?>
+                <?php
+                $error = $_GET['error'];
+                $error = validate_input($error);
+                ?>
+                <?php echo $error; ?>
               </p>
             <?php } ?>
             <div class="form-group">
