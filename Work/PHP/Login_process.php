@@ -29,13 +29,13 @@ if (isset($_POST['Login_button']) && isset($_POST['email']) && isset($_POST['pas
     // Check user credentials and start session
     function login($email, $password, $connection)
     {
-        $stmt = $connection->prepare("SELECT * FROM `login` WHERE email = :email AND password = :password");
+        $stmt = $connection->prepare("SELECT * FROM `login` WHERE email = :email");
         $stmt->bindParam(":email", $email);
-        $stmt->bindParam(":password", $password);
+        // $stmt->bindParam(":password", $password);
         $stmt->execute();
         $result_query = $stmt->fetch();
 
-        if ($result_query !== false) {
+        if ($result_query !== false && password_verify($password, $result_query['password'])) {
             $_SESSION['email'] = $result_query['email'];
             $_SESSION['password'] = $result_query['password'];
             $_SESSION['id'] = $result_query['id'];
@@ -50,6 +50,8 @@ if (isset($_POST['Login_button']) && isset($_POST['email']) && isset($_POST['pas
         $email = validate_input($_POST['email']);
         $password = validate_input($_POST['password']);
         empty_input_login($email, $password);
+        // $password = password_hash($password, PASSWORD_DEFAULT);
+        // echo $password;
         login($email, $password, $connection);
     } catch (Exception $e) {
         header("Location:Login.php?error=" . urlencode($e->getMessage()));
