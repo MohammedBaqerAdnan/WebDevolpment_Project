@@ -57,5 +57,14 @@ body {
   padding: 10px;
   border-radius: 5px;
 }
-  
-
+.success {
+  text-align: center;
+  color: green;
+  color: #28a745;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
+  background-color: #d4edda;
+  padding: 10px;
+  border-radius: 5px;
+}
