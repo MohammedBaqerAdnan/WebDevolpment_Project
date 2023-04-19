@@ -26,6 +26,11 @@
                 <?php echo $_GET['error']; ?>
               </p>
             <?php } ?>
+            <?php if (isset($_GET['success'])) { ?>
+              <p class="small success">
+                <?php echo $_GET['success']; ?>
+              </p>
+            <?php } ?>
             <div class="form-group">
               <label for="email">Email</label>
               <input type="email" placeholder="Enter Your Email" class="form-control" id="email" name="email" />
