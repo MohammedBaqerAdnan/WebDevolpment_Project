@@ -19,27 +19,43 @@
           <img src="../Pictures/login1.png" alt="login image" class="login-image" />
         </div>
         <div class="col-12 col-md-6">
-          <form action="Login_process.php" class="login-form">
+          <form action="sign_up_process.php" class="login-form" method="post">
             <h2 class="mb-4">Registration</h2>
+            <?php if (isset($_GET['error'])) { ?>
+              <p class="small fw-bold mt-2 text-danger error">
+                <?php echo $_GET['error']; ?>
+              </p>
+            <?php } ?>
             <div class="form-group">
               <label for="name">Full Name <span class="text-danger">*</span></label>
-              <input type="text" placeholder="Enter Your Full Name" class="form-control" id="name" required />
+              <?php if (isset($_GET['username'])) { ?>
+                <input type="text" placeholder="Enter Your Full Name" class="form-control" id="name" name="username"
+                  value="<?php echo $_GET['username']; ?>" />
+              <?php } else { ?>
+                <input type="text" placeholder="Enter Your Full Name" class="form-control" id="name" name="username" />
+              <?php } ?>
             </div>
             <div class="form-group">
               <label for="email">Email <span class="text-danger">*</span></label>
-              <input type="email" placeholder="Enter Your Email" class="form-control" id="email" required />
+              <?php if (isset($_GET['email'])) { ?>
+                <input type="email" placeholder="Enter Your Email" class="form-control" id="email" name="email"
+                  value="<?php echo $_GET['email']; ?>" />
+              <?php } else { ?>
+                <input type="email" placeholder="Enter Your Email" class="form-control" id="email" name="email" />
+              <?php } ?>
             </div>
             <div class="form-group">
               <label for="password">Password <span class="text-danger">*</span></label>
-              <input type="password" placeholder="Enter Your Password" class="form-control" id="password" required />
+              <input type="password" placeholder="Enter Your Password" class="form-control" id="password"
+                name="password" />
             </div>
             <div class="form-group">
               <label for="confirm_password">Confirm Password <span class="text-danger">*</span></label>
               <input type="password" placeholder="Confirm Your Password" class="form-control" id="confirm_password"
-                required />
+                name="confirm_password" />
             </div>
             <div class="text-center">
-              <button type="submit" class="btn btn-primary">Register</button>
+              <button type="submit" class="btn btn-primary" name="Register_button">Register</button>
               <p class="small fw-bold mt-2">
                 Already have an account?
                 <a href="Login.php" class="link-danger">Login</a>
