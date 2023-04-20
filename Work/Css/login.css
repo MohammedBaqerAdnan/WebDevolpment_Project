@@ -5,21 +5,12 @@
     --background-color-4:f8f9fa;
 }
 
-/* section {
+/* body {
     background: var(--background-color);
     background: var(--background-color-2);
     background: var(--background-color-3);
 } */
 
-/* .container{
-    background-color: cadetblue;
-}
-.row{
-    background-color:#753a88
-}
-.col{
-    background-color: #cc2b5e;
-} */
 
 body {
     background: var(--background-color-4);
@@ -67,4 +58,17 @@ body {
   background-color: #d4edda;
   padding: 10px;
   border-radius: 5px;
+}
+input {
+  width: 200px;
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+.is-invalid {
+  border-color: red;
+}
+.is-valid {
+  border-color: green;
 }
