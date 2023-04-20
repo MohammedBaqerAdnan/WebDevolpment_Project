@@ -80,9 +80,10 @@
       </div>
     </div>
   </section>
-  <script src="../Js/jquery.min.js"></script>
-  <script src="../Js/popper.min.js"></script>
-  <script src="../../js/bootstrap.min.js"></script>
+  <script src="../../js/bootstrap.bundle.min.js"></script>
+  <script src="../../js/all.min.js"></script>
+  <script src="../js/validate_input_live.js"></script>
+
 </body>
 
 </html>
