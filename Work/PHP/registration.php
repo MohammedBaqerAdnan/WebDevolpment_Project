@@ -43,8 +43,9 @@
             <div class="form-group">
               <label for="name">Full Name <span class="text-danger">*</span></label>
               <?php if (isset($_GET['username'])) { ?>
+                <?php $username = validate_input($_GET['username']); ?>
                 <input type="text" placeholder="Enter Your Full Name" class="form-control" id="name" name="username"
-                  value="<?php echo $_GET['username']; ?>" />
+                  value="<?php echo $username; ?>" />
               <?php } else { ?>
                 <input type="text" placeholder="Enter Your Full Name" class="form-control" id="name" name="username" />
               <?php } ?>
@@ -52,8 +53,9 @@
             <div class="form-group">
               <label for="email">Email <span class="text-danger">*</span></label>
               <?php if (isset($_GET['email'])) { ?>
+                <?php $email = validate_input($_GET['email']); ?>
                 <input type="email" placeholder="Enter Your Email" class="form-control" id="email" name="email"
-                  value="<?php echo $_GET['email']; ?>" />
+                  value="<?php echo $email; ?>" />
               <?php } else { ?>
                 <input type="email" placeholder="Enter Your Email" class="form-control" id="email" name="email" />
               <?php } ?>
