@@ -1,6 +1,6 @@
 <?php
 
-include 'DB_Connection.php';
+require 'DB_Connection.php';
 
 // SQL to create table
 $sql = "CREATE TABLE IF NOT EXISTS login (
