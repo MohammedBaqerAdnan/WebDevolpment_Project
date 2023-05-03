@@ -1,7 +1,7 @@
 <?php
 session_start();
-include 'DB_Connection.php';
-include 'db_table.php';
+require 'DB_Connection.php';
+require 'db_table.php';
 
 
 
@@ -54,11 +54,16 @@ if (isset($_POST['Login_button']) && isset($_POST['email']) && isset($_POST['pas
         // echo $password;
         login($email, $password, $connection);
     } catch (Exception $e) {
-        header("Location:Login.php?error=" . urlencode($e->getMessage()));
+        $_SESSION['Error_message'] = $e->getMessage();
+        $_SESSION['email_refill'] = $email;
+        // header("Location:Login.php?error=" . urlencode($e->getMessage()));
+        header("Location:Login.php");
         exit();
     }
 
 } else {
+    $_SESSION['Error_message'] = "Please fill in all the fields";
+    // header("location:Login.php?error=Please fill in all the fields");
     header("location:Login.php?error=Please fill in all the fields");
     exit();
 }
