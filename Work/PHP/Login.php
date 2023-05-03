@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <?php function validate_input($data)
 {
   $data = trim($data);
@@ -32,22 +33,28 @@
         <div class="col-12 col-md-6">
           <form action="Login_process.php" class="login-form" method="post">
             <h2 class="mb-4">Login</h2>
-            <?php if (isset($_GET['error'])) { ?>
+            <?php if (isset($_SESSION['Error_message'])) { ?>
               <p class="small fw-bold mt-2 text-danger error">
-                <?php $error = validate_input($_GET['error']); ?>
+                <?php $error = validate_input($_SESSION['Error_message']); ?>
+                <?php unset($_SESSION['Error_message']); ?>
                 <?php echo $error; ?>
               </p>
             <?php } ?>
-            <?php if (isset($_GET['success'])) { ?>
+            <?php if (isset($_SESSION['Success_message'])) { ?>
               <p class="small fw-bold mt-2 text-success success">
-                <?php $success = validate_input($_GET['success']); ?>
+                <?php $success = validate_input($_SESSION['Success_message']); ?>
+                <?php unset($_SESSION['Success_message']); ?>
                 <?php echo $success; ?>
               </p>
             <?php } ?>
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" placeholder="Enter Your Email" class="form-control" id="email" name="email" />
+              <input type="email" placeholder="Enter Your Email" class="form-control" id="email" name="email"
+                value="<?php echo $_SESSION['email_refill'] ?>" />
+              <?php unset($_SESSION['email_refill']); ?>
+              <small id="email_success_message" class="invalid-feedback">ssasasasasasasasas</small>
             </div>
+
             <div class="form-group">
               <label for="password">Password</label>
               <input type="password" placeholder="Enter Your Password" class="form-control" id="password"
@@ -70,6 +77,9 @@
 
   <script src="../../js/bootstrap.bundle.min.js"></script>
   <script src="../../js/all.min.js"></script>
+  <script src="../js/jquery-3.6.0.min.js"></script>
+  <script src="../js/ajax_check_availability_login.js"></script>
+  <script></script>
 </body>
 
 </html>
