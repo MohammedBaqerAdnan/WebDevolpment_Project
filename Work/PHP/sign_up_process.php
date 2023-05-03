@@ -1,7 +1,7 @@
 <?php
 session_start();
-include 'DB_Connection.php';
-include 'db_table.php';
+require 'DB_Connection.php';
+require 'db_table.php';
 
 
 if (isset($_POST['Register_button']) && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['username']) && isset($_POST['confirm_password'])) {
@@ -40,8 +40,11 @@ if (isset($_POST['Register_button']) && isset($_POST['email']) && isset($_POST['
         $stmt->bindParam(":password", $password);
         $stmt->bindParam(":username", $username);
         if ($stmt->execute()) {
-            header("Location:Login.php?success=You have successfully registered");
+            $_SESSION['Success_message'] = 'You have successfully registered';
+            // header("Location:Login.php?success=You have successfully registered");
+            header("Location:Login.php");
             exit();
+            // return true;
         } else {
             throw new Exception("unknown error occurred");
         }
@@ -65,6 +68,7 @@ if (isset($_POST['Register_button']) && isset($_POST['email']) && isset($_POST['
             $password = password_hash($password, PASSWORD_DEFAULT);
             // throw new Exception("Invalid email or password. Please check your email and password and try again. If you haven't registered yet, please sign up first");
             insert_user($email, $password, $username, $connection);
+            // return insert_user($email, $password, $username, $connection);
         }
     }
     function regex_check($email, $password, $username, $confirm_password)
@@ -138,13 +142,27 @@ if (isset($_POST['Register_button']) && isset($_POST['email']) && isset($_POST['
         empty_input_register($email, $password, $username, $confirm_password);
         password_match($password, $confirm_password);
         check_email_username_exists($email, $username, $connection, $password, $confirm_password);
+        // $result = check_email_username_exists($email, $username, $connection, $password, $confirm_password);
+        // if ($result) {
+        //     echo json_encode(['success' => true]);
+        // } else {
+        //     echo json_encode(['success' => false, 'error' => 'Unknown error occurred']);
+        // }
     } catch (Exception $e) {
-        header("Location:registration.php?error=" . urlencode($e->getMessage()) . "&email=" . $email . "&username=" . $username);
+        // echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+        $_SESSION['error_message'] = $e->getMessage();
+        $_SESSION['email_refill'] = $email;
+        $_SESSION['username_refill'] = $username;
+        // header("Location:registration.php?error=" . urlencode($e->getMessage()) . "&email=" . $email . "&username=" . $username);
+        header("Location:registration.php");
         exit();
     }
 
 } else {
-    header("location:registration.php?error=Please fill in all the fields");
+    // echo json_encode(['success' => false, 'error' => 'Please fill in all the fields']);
+    $_SESSION['error_message'] = "Please fill in all the fields";
+    // header("location:registration.php?error=Please fill in all the fields");
+    header("location:registration.php");
     exit();
 }
 
