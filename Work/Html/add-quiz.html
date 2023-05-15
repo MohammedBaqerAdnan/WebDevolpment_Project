@@ -21,23 +21,19 @@
           aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="Login.html">Logout</a>
-            </li>
-          </ul>
-        </div>
       </div>
     </nav>
-    <form>
+     <form class="details">
       <div id="question_container">
-        <label for="title">Quiz Title:</label>
-        <input type="text" id="title" name="title"><br><br>
-
-        <label for="description">Quiz Description:</label>
-        <textarea id="description" name="description"></textarea><br><br>
-        <label for="question">Question Type:</label>
+        <div>
+            <label for="title" class="title-label"> Questionnaire Title:</label>
+            <input type="text" id="title" name="title"><br><br>
+            <label for="description" class="description-label">Quiz Description:</label>
+            <textarea id="description" name="description"></textarea><br><br>
+        </div>
+        <div id="quiz-content">
+        
+        <label for="question"class="question-label">Question Type:</label>
         <select id="question" name="question">
           <option value="likert">Likert Scale</option>
           <option value="yesno">Yes or No</option>
@@ -45,26 +41,27 @@
           <option value="mcq">Multiple Choice</option>
         </select><br><br>
 
-        <label for="question_text">Question Text:</label>
+  
+        <label for="question_text"class="question-label">Question Text:</label>
         <input type="text" id="question_text" name="question_text"><br><br>
 
         <div id="likert_scale">
-          <label for="likert_scale_text">Likert Scale Options:</label>
+          <label for="likert_scale_text"class="question-label">Likert Scale Options:</label>
 
-          <label for="option1">Strongly Disagree</label>
+          <label for="option1">1</label>
           <input type="radio" id="option1" name="likert" value="1">
-          <label for="option2">Disagree</label>
+          <label for="option2">2</label>
           <input type="radio" id="option2" name="likert" value="2">
-          <label for="option3">Neutral</label>
+          <label for="option3">3</label>
           <input type="radio" id="option3" name="likert" value="3">
-          <label for="option4">Agree</label>
+          <label for="option4">4</label>
           <input type="radio" id="option4" name="likert" value="4">
-          <label for="option5">Strongly Agree</label>
+          <label for="option5">5</label>
           <input type="radio" id="option5" name="likert" value="5">
         </div>
 
         <div id="yes_no">
-          <label for="yes_no_text">Yes or No Options:</label><br>
+          <label for="yes_no_text"class="question-label">Yes or No Options:</label><br>
           <input type="radio" id="yes_no_text" name="yes_no_text" value="yes">Yes<br>
           <input type="radio" id="yes_no_text" name="yes_no_text" value="no">No<br><br>
         </div>
@@ -75,15 +72,28 @@
         </div>
 
         <div id="mcq">
-          <label for="mcq_text">MCQ Options:</label><br>
-          <input type="radio" id="mcq_text" name="mcq_text" value="option1">Option 1<br>
-          <input type="radio" id="mcq_text" name="mcq_text" value="option2">Option 2<br>
-          <input type="radio" id="mcq_text" name="mcq_text" value="option3">Option 3<br><br>
+          <label for="option1_radio">Option 1:</label>
+          <input type="radio" id="option1_radio" name="mcq" value="option1">
+          <input type="text" id="option1" name="mcq_text" value=""><br>
+        
+          <label for="option2_radio">Option 2:</label>
+          <input type="radio" id="option2_radio" name="mcq" value="option2">
+          <input type="text" id="option2" name="mcq_text" value=""><br>
+        
+          <label for="option3_radio">Option 3:</label>
+          <input type="radio" id="option3_radio" name="mcq" value="option3">
+          <input type="text" id="option3" name="mcq_text" value=""><br>
+        
+          <label for="option4_radio">Option 4:</label>
+          <input type="radio" id="option4_radio" name="mcq" value="option4">
+          <input type="text" id="option4" name="mcq_text" value=""><br>
+    </div>
         </div>
       </div>
       <input type="button" value="Add Question" id="addquestion">
       <input type="submit" value="Submit">
     </form>
+    
     <script src="../js/add.js"></script>
 <script src="../../js/bootstrap.bundle.min.js"></script>
     <script src="../../js/all.min.js"></script>
