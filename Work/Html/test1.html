@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Quiz</title>
+    <link rel="stylesheet" href="../../Addition/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../Addition/css/all.min.css" />
+    <style>
+      body {
+        background-color: #f5f5f5;
+      }
+      .container {
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+      }
+      .form-group {
+        margin-bottom: 1rem;
+      }
+      textarea {
+        resize: none;
+      }
+      button[type="submit"],
+      button[type="button"] {
+        margin: 1rem;
+      }
+      .question {
+        margin-top: 3rem; /* Add bottom margin to separate questions */
+      }
+      .remove-question {
+        margin-top: 1rem;
+      }
+      .form-check {
+        display: flex;
+        align-items: center;
+      }
+      .form-check-input {
+        margin-top: 0;
+        margin-right: 0.5rem;
+      }
+      @media (min-width: 768px) {
+        form {
+          margin-top: 100px;
+        }
+      }
+      form {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+      }
+      form label {
+        font-weight: bold;
+      }
+      form input[type="text"],
+      form textarea {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ced4da;
+        border-radius: 3px;
+        background-color: #fff;
+      }
+      form select {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ced4da;
+        border-radius: 3px;
+        background-color: #fff;
+      }
+      form input[type="radio"] {
+        margin-right: 5px;
+      }
+      form input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+      }
+      form input:hover[type="submit"] {
+        background-color: #4169e1;
+      }
+      form input[type="button"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #040506;
+        color: #fff;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+      }
+      @media (min-width: 768px) {
+        form {
+          margin-top: 100px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="admin.html">Homepage</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div
+            class="collapse navbar-collapse justify-content-end"
+            id="navbarNav"
+          >
+            <ul class="navbar-nav">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="container">
+      <form>
+        <div id="question_container">
+          <!-- Questions will be added here -->
+        </div>
+        <button type="button" class="btn btn-secondary" id="addquestion">
+          Add Question
+        </button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+
+    <script>
+      const questionContainer = document.getElementById("question_container");
+      const addQuestionBtn = document.getElementById("addquestion");
+
+      function createOptionContainer(questionType, index) {
+        const optionContainer = document.createElement("div");
+        optionContainer.classList.add("option-container");
+
+        switch (questionType) {
+          case "likert":
+            optionContainer.innerHTML = `
+                    <label>Likert Scale Options:</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="likert${index}" id="option1" value="1">
+                        <label class="form-check-label" for="option1">Strongly Disagree</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="likert${index}" id="option2" value="2">
+                        <label class="form-check-label" for="option2">Disagree</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="likert${index}" id="option3" value="3">
+                        <label class="form-check-label" for="option3">Neutral</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="likert${index}" id="option4" value="4">
+                        <label class="form-check-label" for="option4">Agree</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="likert${index}" id="option5" value="5">
+                        <label class="form-check-label" for="option5">Strongly Agree</label>
+                    </div>`;
+            break;
+
+          case "yesno":
+            optionContainer.innerHTML = `
+                    <label>Yes or No Options:</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="yesno${index}" id="yes" value="yes">
+                        <label class="form-check-label" for="yes">Yes</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="yesno${index}" id="no" value="no">
+                        <label class="form-check-label" for="no">No</label>
+                    </div>`;
+            break;
+
+          case "shortanswer":
+            optionContainer.innerHTML = `
+                    <label for="short_answer_text">Short Answer:</label>
+                    <input type="text" id="short_answer_text" name="short_answer_text" class="form-control">
+                    `;
+            break;
+
+          case "mcq":
+            optionContainer.innerHTML = `
+                    <label>MCQ Options:</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="mcq${index}" id="mcq_option1" value="option1">
+                        <input type="text" class="form-control" placeholder="Option 1" name="mcq_option1_text">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="mcq${index}" id="mcq_option2" value="option2">
+                        <input type="text" class="form-control" placeholder="Option 2" name="mcq_option2_text">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="mcq${index}" id="mcq_option3" value="option3">
+                        <input type="text" class="form-control" placeholder="Option 3" name="mcq_option3_text">
+                    </div>`;
+            break;
+        }
+
+        return optionContainer;
+      }
+
+      function updateOptionContainer(selectElement, index) {
+        const questionType = selectElement.value;
+        const question = selectElement.closest(".question");
+        const optionContainer = question.querySelector(".option-container");
+        const newOptionContainer = createOptionContainer(questionType, index);
+        question.replaceChild(newOptionContainer, optionContainer);
+      }
+
+      function addQuestion() {
+        const questionCount = questionContainer.childElementCount + 1;
+        const question = document.createElement("div");
+        question.classList.add("question");
+        question.innerHTML = `
+            <h3>Question ${questionCount}</h3>
+            <div class="form-group">
+                <label for="question">Question Type:</label>
+                <select id="question" name="question" class="form-control">
+                    <option value="likert">Likert Scale</option>
+                    <option value="yesno">Yes or No</option>
+                    <option value="shortanswer">Short Answer</option>
+                    <option value="mcq">Multiple Choice</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="question_text">Question Text:</label>
+                <input type="text" id="question_text" name="question_text" class="form-control">
+            </div>`;
+
+        const initialQuestionSelect = question.querySelector("select");
+        initialQuestionSelect.addEventListener("change", () =>
+          updateOptionContainer(initialQuestionSelect, questionCount)
+        );
+
+        const initialOptionContainer = createOptionContainer(
+          initialQuestionSelect.value,
+          questionCount
+        );
+        question.appendChild(initialOptionContainer);
+
+        // Add a remove question button
+        const removeQuestionBtn = document.createElement("button");
+        removeQuestionBtn.classList.add("btn", "btn-danger", "remove-question");
+        removeQuestionBtn.innerHTML = "Remove Question";
+        removeQuestionBtn.addEventListener("click", () =>
+          removeQuestion(question)
+        );
+        question.appendChild(removeQuestionBtn);
+
+        questionContainer.appendChild(question);
+      }
+
+      function renumberQuestions() {
+        const questions = questionContainer.querySelectorAll(".question");
+        questions.forEach((question, index) => {
+          const header = question.querySelector("h3");
+          header.textContent = `Question ${index + 1}`;
+        });
+      }
+
+      function removeQuestion(question) {
+        questionContainer.removeChild(question);
+        renumberQuestions();
+      }
+
+      // Event listeners
+      addQuestionBtn.addEventListener("click", addQuestion);
+
+      // Renumber questions when a question is removed
+      function renumberQuestions() {
+        const questions = questionContainer.querySelectorAll(".question");
+        questions.forEach((question, index) => {
+          const header = question.querySelector("h3");
+          header.textContent = `Question ${index + 1}`;
+        });
+      }
+
+      // Initialize event listeners for existing questions
+      function initializeQuestionListeners() {
+        const questions = questionContainer.querySelectorAll(".question");
+        questions.forEach((question, index) => {
+          const selectElement = question.querySelector("select");
+          selectElement.addEventListener("change", () =>
+            updateOptionContainer(selectElement, index + 1)
+          );
+
+          const removeQuestionBtn = question.querySelector(".remove-question");
+          removeQuestionBtn.addEventListener("click", () =>
+            removeQuestion(question)
+          );
+        });
+      }
+
+      initializeQuestionListeners();
+    </script>
+    <script src="../../Addition/js/bootstrap.min.js"></script>
+  </body>
+</html>
