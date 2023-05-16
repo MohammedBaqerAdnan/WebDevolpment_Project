@@ -105,6 +105,44 @@
           margin-top: 100px;
         }
       }
+      .quiz-title {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .quiz-description {
+        font-size: 18px;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      button[type="button"] {
+        display: block;
+        margin: 0 auto;
+        width: 50%;
+      }
+
+      button[type="submit"] {
+        display: none;
+        margin: 0 auto;
+        width: 50%;
+      }
+
+      button[type="submit"].visible {
+        display: block;
+      }
+      /* Add this new rule */
+      .btn-spacing {
+        margin-right: 10px;
+      }
+
+      /* Existing CSS code */
+      button[type="submit"],
+      button[type="button"] {
+        margin-top: 1rem;
+      }
     </style>
   </head>
   <body>
@@ -134,100 +172,126 @@
         </div>
       </nav>
     </header>
-
     <div class="container">
-      <form>
+      <form method="post">
+        <div class="form-group">
+          <label for="quiz_title">Quiz Title:</label>
+          <input
+            type="text"
+            id="quiz_title"
+            name="quiz_title"
+            class="form-control"
+          />
+        </div>
+        <div class="form-group">
+          <label for="quiz_description">Quiz Description:</label>
+          <textarea
+            id="quiz_description"
+            name="quiz_description"
+            rows="3"
+            class="form-control"
+          ></textarea>
+        </div>
         <div id="question_container">
           <!-- Questions will be added here -->
         </div>
-        <button type="button" class="btn btn-secondary" id="addquestion">
+        <button
+          type="button"
+          class="btn btn-secondary btn-spacing"
+          id="addquestion"
+        >
           Add Question
         </button>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button
+          type="submit"
+          class="btn btn-primary btn-spacing"
+          id="submit"
+          style="display: none"
+        >
+          Submit
+        </button>
       </form>
     </div>
-
     <script>
       const questionContainer = document.getElementById("question_container");
       const addQuestionBtn = document.getElementById("addquestion");
+      const submitBtn = document.getElementById("submit");
 
       function createOptionContainer(questionType, index) {
         const optionContainer = document.createElement("div");
         optionContainer.classList.add("option-container");
-
         switch (questionType) {
           case "likert":
             optionContainer.innerHTML = `
-                    <label>Likert Scale Options:</label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="likert${index}" id="option1" value="1">
-                        <label class="form-check-label" for="option1">Strongly Disagree</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="likert${index}" id="option2" value="2">
-                        <label class="form-check-label" for="option2">Disagree</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="likert${index}" id="option3" value="3">
-                        <label class="form-check-label" for="option3">Neutral</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="likert${index}" id="option4" value="4">
-                        <label class="form-check-label" for="option4">Agree</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="likert${index}" id="option5" value="5">
-                        <label class="form-check-label" for="option5">Strongly Agree</label>
-                    </div>`;
+              <label>Likert Scale Options:</label>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="likert${index}" id="option1" value="1">
+                <label class="form-check-label" for="option1">Strongly Disagree</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="likert${index}" id="option2" value="2">
+                <label class="form-check-label" for="option2">Disagree</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="likert${index}" id="option3" value="3">
+                <label class="form-check-label" for="option3">Neutral</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="likert${index}" id="option4" value="4">
+                <label class="form-check-label" for="option4">Agree</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="likert${index}" id="option5" value="5">
+                <label class="form-check-label" for="option5">Strongly Agree</label>
+              </div>`;
             break;
-
           case "yesno":
             optionContainer.innerHTML = `
-                    <label>Yes or No Options:</label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="yesno${index}" id="yes" value="yes">
-                        <label class="form-check-label" for="yes">Yes</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="yesno${index}" id="no" value="no">
-                        <label class="form-check-label" for="no">No</label>
-                    </div>`;
+              <label>Yes or No Options:</label>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="yesno${index}" id="yes" value="yes">
+                <label class="form-check-label" for="yes">Yes</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="yesno${index}" id="no" value="no">
+                <label class="form-check-label" for="no">No</label>
+              </div>`;
             break;
-
           case "shortanswer":
             optionContainer.innerHTML = `
-                    <label for="short_answer_text">Short Answer:</label>
-                    <input type="text" id="short_answer_text" name="short_answer_text" class="form-control">
-                    `;
+              <label for="short_answer_text">Short Answer:</label>
+              <input type="text" id="short_answer_text" name="short_answer_text" class="form-control">
+            `;
             break;
-
           case "mcq":
             optionContainer.innerHTML = `
-                    <label>MCQ Options:</label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="mcq${index}" id="mcq_option1" value="option1">
-                        <input type="text" class="form-control" placeholder="Option 1" name="mcq_option1_text">
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="mcq${index}" id="mcq_option2" value="option2">
-                        <input type="text" class="form-control" placeholder="Option 2" name="mcq_option2_text">
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="mcq${index}" id="mcq_option3" value="option3">
-                        <input type="text" class="form-control" placeholder="Option 3" name="mcq_option3_text">
-                    </div>`;
+              <label>MCQ Options:</label>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="mcq${index}" id="mcq_option1" value="option1">
+                <input type="text" class="form-control" placeholder="Option 1" name="mcq_option1_text">
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="mcq${index}" id="mcq_option2" value="option2">
+                <input type="text" class="form-control" placeholder="Option 2" name="mcq_option2_text">
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="mcq${index}" id="mcq_option3" value="option3">
+                <input type="text" class="form-control" placeholder="Option 3" name="mcq_option3_text">
+              </div>`;
             break;
         }
-
         return optionContainer;
       }
 
-      function updateOptionContainer(selectElement, index) {
+      function updateOptionContainer(selectElement) {
         const questionType = selectElement.value;
-        const question = selectElement.closest(".question");
-        const optionContainer = question.querySelector(".option-container");
+        const optionContainer = selectElement.parentElement.nextElementSibling;
+        const index =
+          Array.from(
+            selectElement.parentElement.parentElement.parentElement.children
+          ).indexOf(selectElement.parentElement.parentElement) + 1;
         const newOptionContainer = createOptionContainer(questionType, index);
-        question.replaceChild(newOptionContainer, optionContainer);
+        optionContainer.replaceWith(newOptionContainer);
       }
 
       function addQuestion() {
@@ -235,31 +299,34 @@
         const question = document.createElement("div");
         question.classList.add("question");
         question.innerHTML = `
-            <h3>Question ${questionCount}</h3>
-            <div class="form-group">
-                <label for="question">Question Type:</label>
-                <select id="question" name="question" class="form-control">
-                    <option value="likert">Likert Scale</option>
-                    <option value="yesno">Yes or No</option>
-                    <option value="shortanswer">Short Answer</option>
-                    <option value="mcq">Multiple Choice</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="question_text">Question Text:</label>
-                <input type="text" id="question_text" name="question_text" class="form-control">
-            </div>`;
-
-        const initialQuestionSelect = question.querySelector("select");
-        initialQuestionSelect.addEventListener("change", () =>
-          updateOptionContainer(initialQuestionSelect, questionCount)
-        );
-
+          <h3>Question ${questionCount}</h3>
+          <div class="form-group">
+            <label for="question_text">Question Text:</label>
+            <textarea id="question_text" name="question_text" rows="3" class="form-control"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="question_type_select">Question Type:</label>
+            <select class="form-control" id="question_type_select_${questionCount}">
+              <option value="likert">Likert Scale</option>
+              <option value="yesno">Yes or No</option>
+              <option value="shortanswer">Short Answer</option>
+              <option value="mcq">Multiple Choice</option>
+            </select>
+          </div>
+        `;
         const initialOptionContainer = createOptionContainer(
-          initialQuestionSelect.value,
+          "likert",
           questionCount
         );
         question.appendChild(initialOptionContainer);
+
+        // Add event listener to update option container when question type is changed
+        const selectElement = question.querySelector(
+          `#question_type_select_${questionCount}`
+        );
+        selectElement.addEventListener("change", () =>
+          updateOptionContainer(selectElement)
+        );
 
         // Add a remove question button
         const removeQuestionBtn = document.createElement("button");
@@ -271,6 +338,7 @@
         question.appendChild(removeQuestionBtn);
 
         questionContainer.appendChild(question);
+        submitBtn.style.display = "block";
       }
 
       function renumberQuestions() {
@@ -284,6 +352,9 @@
       function removeQuestion(question) {
         questionContainer.removeChild(question);
         renumberQuestions();
+        if (questionContainer.childElementCount === 0) {
+          submitBtn.style.display = "none";
+        }
       }
 
       // Event listeners
@@ -302,11 +373,10 @@
       function initializeQuestionListeners() {
         const questions = questionContainer.querySelectorAll(".question");
         questions.forEach((question, index) => {
-          const selectElement = question.querySelector("select");
+          const selectElement = question.querySelector("select.form-control");
           selectElement.addEventListener("change", () =>
-            updateOptionContainer(selectElement, index + 1)
+            updateOptionContainer(selectElement)
           );
-
           const removeQuestionBtn = question.querySelector(".remove-question");
           removeQuestionBtn.addEventListener("click", () =>
             removeQuestion(question)
