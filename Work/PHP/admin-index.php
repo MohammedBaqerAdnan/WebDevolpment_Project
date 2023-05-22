@@ -54,8 +54,8 @@
       </div>
     </div>
   </header>
-  <script src="../../js/bootstrap.bundle.min.js"></script>
-  <script src="../../js/all.min.js"></script>
+  <script src="../../Addition/js/bootstrap.bundle.min.js"></script>
+  <script src="../../Addition/js/all.min.js"></script>
 </body>
 
 </html>

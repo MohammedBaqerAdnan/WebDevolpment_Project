@@ -95,7 +95,7 @@ function addQuestion() {
     </div>
     <div class="form-group">
       <label for="question_type_select">Question Type:</label>
-      <select class="form-control" id="question_type_select_${questionCount}">
+      <select class="form-control" id="question_type_select_${questionCount}" name="question_type">
         <option value="likert">Likert Scale</option>
         <option value="yesno">Yes or No</option>
         <option value="shortanswer">Short Answer</option>
@@ -174,3 +174,113 @@ function initializeQuestionListeners() {
 }
 
 initializeQuestionListeners();
+// In the add.js file, add the following function to collect the quiz data
+
+// function collectQuizData() {
+//   const quizData = {
+//     title: document.getElementById("quiz_title").value,
+//     description: document.getElementById("quiz_description").value, // Changed "quiz" to "quiz_description"
+//     questions: [],
+//   };
+
+//   const questions = document.querySelectorAll(".question");
+//   questions.forEach((question) => {
+//     const question_text_element = question.querySelector("textarea[name='question_text']");
+//     const question_type_element = question.querySelector("select[name='question_type']");
+
+//     const questionData = {
+//       question_text: question_text_element ? question_text_element.value : "",
+//       question_type: question_type_element ? question_type_element.value : "",
+//       options: [],
+//     };
+
+//     if (questionData.question_type === "mcq") {
+//       const mcqOptions = question.querySelectorAll("input[type='text']");
+//       mcqOptions.forEach((option) => { // Added the arrow (=>) in the arrow function
+//         questionData.options.push(option.value);
+//       });
+//     }
+
+//     quizData.questions.push(questionData);
+//   });
+
+//   return quizData;
+// }
+function collectQuizData() {
+  const quizData = {
+    title: document.getElementById("quiz_title").value,
+    description: document.getElementById("quiz_description").value,
+    questions: [],
+  };
+
+  const questions = document.querySelectorAll(".question");
+  questions.forEach((question) => {
+    const question_text_element = question.querySelector("textarea[name='question_text']");
+    const question_type_element = question.querySelector("select[name='question_type']");
+
+    const questionData = {
+      question_text: question_text_element ? question_text_element.value : "",
+      question_type: question_type_element ? question_type_element.value : "",
+      options: [],
+    };
+
+    if (questionData.question_type === "mcq") {
+      const mcqOptions = question.querySelectorAll("input[type='text']");
+      mcqOptions.forEach((option) => {
+        questionData.options.push(option.value);
+      });
+    }
+
+    quizData.questions.push(questionData);
+  });
+
+  return quizData;
+}
+// Add event listener for the submit button
+// submitBtn.addEventListener("click", submitForm);
+
+// function submitForm() {
+//   const quizData = collectQuizData();
+
+//   // Send the quiz data using the fetch function
+//   fetch("process-form.php", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(quizData),
+//   })
+//     .then((response) => response.text())
+//     .then((data) => {
+//       console.log(data);
+//       // Redirect to the admin page
+//       window.location.href = "admin-index.php";
+//     })
+//     .catch((error) => {
+//       console.error("Error:", error);
+//     });
+// }
+function submitForm(event) {
+  event.preventDefault();
+  const quizData = collectQuizData();
+
+  // Send the quiz data using the fetch function
+  fetch("process-form.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(quizData),
+  })
+    .then((response) => response.text())
+    .then((data) => {
+      console.log(data);
+      // Redirect to the admin page
+      window.location.href = "admin-index.php";
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+const quizForm = document.getElementById("quiz_form");
+quizForm.addEventListener("submit", submitForm);
