@@ -29,7 +29,7 @@
     </nav>
   </header>
   <div class="container">
-    <form method="post" onsubmit="event.preventDefault(); submitForm()">
+    <form method="post" id="quiz_form">
       <div class="form-group">
         <label for="quiz_title">Quiz Title:</label>
         <input type="text" id="quiz_title" name="quiz_title" class="form-control" />
@@ -57,3 +57,5 @@
 </body>
 
 </html>
+
+// Path: WebDevolpment_Project\Work\PHP\add-quiz.php
