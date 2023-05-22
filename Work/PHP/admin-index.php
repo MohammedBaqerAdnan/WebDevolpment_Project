@@ -20,7 +20,7 @@
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="add-quiz.php">Add Quiz</a>
+            <a class="nav-link" href="add-quiz.php">Add a Quiz</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="../PHP/login.php">Logout</a>
