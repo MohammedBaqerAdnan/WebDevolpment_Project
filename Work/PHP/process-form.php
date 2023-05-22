@@ -1,56 +1,54 @@
 <?php
+
 require "DB_Connection.php";
-$create_table_query = "CREATE TABLE IF NOT EXISTS Que_details(
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    description TEXT
-)";
-$connection->exec($create_table_query);
 
-// Confirm if the table was created
-if ($connection->errorCode() === "00000") {
-    echo "";
-} else {
-    $error_info = $connection->errorInfo();
-    echo "Error creating table: " . $error_info[2];
-}
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve form data
-    $quiz_title = $_POST["quiz_title"];
-    $quiz_description = $_POST["quiz_description"];
+$input = file_get_contents("php://input");
+$quizData = json_decode($input, true);
 
-    // Prepare and execute the SQL statement to insert data into the table
-    $insert_query = "INSERT IGNORE INTO Que_details (title, description) VALUES ('$quiz_title', '$quiz_description')";
-    try {
-        // Execute SQL query
-        $connection->exec($insert_query);
-         echo "QUe Table created successfully";
-    } catch (PDOException $e) {
-        // Output error message if table creation fails
-        echo "QUe Error creating table: " . $e->getMessage();
+// Insert the quiz
+$stmt = $connection->prepare("INSERT INTO quizzes (title, description) VALUES (:title, :description)");
+$stmt->execute([
+    'title' => $quizData['title'],
+    // Removed extra $ sign
+    'description' => $quizData['description'] // Removed extra $ sign
+]);
+
+// Get the inserted quiz ID
+$quiz_id = $connection->lastInsertId();
+
+//
+print_r($quizData['questions']);
+print_r($quizData['title']);
+print_r($quizData['description']);
+print_r($quizData['questions'][0]['question_text']);
+print_r($quizData['questions'][0]['question_type']);
+print_r($quizData['questions'][0]['options'][0]);
+print_r($quizData['questions'][0]['options'][1]);
+// Insert the questions
+foreach ($quizData['questions'] as $question) {
+    $stmt = $connection->prepare("INSERT INTO questions (quiz_id, question_text, question_type) VALUES (:quiz_id, :question_text, :question_type)");
+    $stmt->execute([
+        'quiz_id' => $quiz_id,
+        'question_text' => $question['question_text'],
+        'question_type' => $question['question_type']
+    ]);
+
+    // Get the inserted question ID
+    $question_id = $connection->lastInsertId();
+
+    // Insert the MCQ options if the question type is 'mcq'
+    if ($question['question_type'] == 'mcq') {
+        foreach ($question['options'] as $option) {
+            $stmt = $connection->prepare("INSERT INTO mcq_options (question_id, option_text) VALUES (:question_id, :option_text)");
+            $stmt->execute([
+                'question_id' => $question_id,
+                'option_text' => $option
+            ]);
+        }
     }
 }
-/*
-$create_table_query="CREATE TABLE IF NOT EXISTS QUIS(
-id INT,
-FOREIGN KEY (id) REFERENCES Que_details(id),
-Question TEXT,
-Options VARCHAR(50) 
-)";
-$type=$_POST[""];
-$Question=$_POST[""];
-if($type==="likert"){$options=$_POST[""];}
-else if($type==="yesno"){$options=$_POST[""];}
-else if($type==="shortanswer"){$options=$_POST[""];}
-else if($type==="mcq"){$options=$_POST[""];}
-$insert_query="INSERT IGNORE INTO QUIS (Question,Options) VALUES ('$Question','$options')";
-$insert_query = "INSERT IGNORE INTO Que_details (title, description) VALUES ('$quiz_title', '$quiz_description')";
-try {
-    // Execute SQL query
-    $connection->exec($insert_query);
-     echo "QUIS Table created successfully";
-} catch (PDOException $e) {
-    // Output error message if table creation fails
-    echo "QUIS Error creating table: " . $e->getMessage();
-}*/
+
+// Redirect to the admin page
+// header("Location: admin-index.php");
+// exit();
 ?>
