@@ -284,3 +284,7 @@ function submitForm(event) {
 }
 const quizForm = document.getElementById("quiz_form");
 quizForm.addEventListener("submit", submitForm);
+
+
+// In the add.js file, add the following function to collect the quiz data
+
