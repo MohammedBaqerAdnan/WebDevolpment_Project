@@ -133,3 +133,10 @@ button[type="submit"],
 button[type="button"] {
   margin-top: 1rem;
 }
+
+hr:last-child{
+  display: none;
+}
+a{
+  align-items: left;
+}
