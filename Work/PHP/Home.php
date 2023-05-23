@@ -16,9 +16,17 @@ if (isset($_SESSION['email']) && isset($_SESSION['password']) && isset($_SESSION
 
     <body>
         <h1>Welcome to my website
-            <?php echo $_SESSION['id'] ?>
+            <?php
+            if (empty($_SESSION['username'])) {
+                echo '<br><p>Email: '.$_SESSION['email'].'</p>';
+            }else {
+                echo '<p>'.$_SESSION['username'].'</p>';
+            }
+            ?>
         </h1>
-        <a href="Logout.php">Logout</a>
+        <li><a href="userProfile.php">User Profile</a></li>
+        <li><a href="Logout.php">Logout</a></li>
+        
     </body>
 
     </html>
