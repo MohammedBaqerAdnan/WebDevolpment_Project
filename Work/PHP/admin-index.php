@@ -12,7 +12,7 @@
   <?php require "DB_Connection.php"; ?>
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="admin.php">Homepage</a>
+      <a class="navbar-brand" href="admin-index.php">Homepage</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -23,7 +23,7 @@
             <a class="nav-link" href="add-quiz.php">Add Quiz</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../PHP/login.php">Logout</a>
+            <a class="nav-link" href="login.php">Logout</a>
           </li>
         </ul>
       </div>
@@ -37,7 +37,8 @@
 
       <!-- Display the quizzes -->
       <div class="container">
-        <h2>Quizzes</h2>
+        <h2 style="text-align:center; color:red;">Quizzes</h2>
+        <hr>
         <ul>
           <?php foreach ($quizzes as $quiz): ?>
             <li>
@@ -49,6 +50,7 @@
               </p>
               <a href="view-quiz.php?id=<?= $quiz['id'] ?>">View Quiz</a>
             </li>
+            <hr>
           <?php endforeach; ?>
         </ul>
       </div>
