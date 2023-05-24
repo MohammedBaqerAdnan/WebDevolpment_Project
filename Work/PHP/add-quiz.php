@@ -57,5 +57,3 @@
 </body>
 
 </html>
-
-// Path: WebDevolpment_Project\Work\PHP\add-quiz.php
