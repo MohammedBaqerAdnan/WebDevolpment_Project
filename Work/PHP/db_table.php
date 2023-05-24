@@ -93,6 +93,8 @@ $sql4 = "CREATE TABLE IF NOT EXISTS mcq_options (
 $sql5 = "CREATE TABLE IF NOT EXISTS responses (
     id INT AUTO_INCREMENT PRIMARY KEY,
     quiz_id INT,
+    login_id int(10) UNSIGNED,
+    FOREIGN KEY (login_id) REFERENCES login(id),
     FOREIGN KEY (quiz_id) REFERENCES quizzes(id)
 )";
 
