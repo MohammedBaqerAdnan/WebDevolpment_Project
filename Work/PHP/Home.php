@@ -25,6 +25,8 @@ if (isset($_SESSION['email']) && isset($_SESSION['password']) && isset($_SESSION
             ?>
         </h1>
         <li><a href="userProfile.php">User Profile</a></li>
+        <li><a href="displayQuizzes.php">Attempt quiz</a></li>
+        <li><a href="displayResponses.php">Edit Responses</a></li>
         <li><a href="Logout.php">Logout</a></li>
         
     </body>
