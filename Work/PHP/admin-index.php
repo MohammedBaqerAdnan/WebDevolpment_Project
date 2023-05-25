@@ -23,23 +23,38 @@
             <a class="nav-link" href="add-quiz.php">Add Quiz</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="login.php">Logout</a>
+            <a class="nav-link" href="Logout.php">Logout</a>
           </li>
         </ul>
       </div>
     </nav>
     <div class="header">
       <h3 style="text-align:center">Questions</h3>
-      <?php
-      $stmt = $connection->query("SELECT * FROM quizzes");
-      $quizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-      ?>
-
+      
       <!-- Display the quizzes -->
       <div class="container">
         <h2 style="text-align:center; color:red;">Quizzes</h2>
         <hr>
         <ul>
+
+        <?php
+try {
+    $stmt = $connection->query("SELECT * FROM quizzes");
+    $quizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    if (count($quizzes) > 0) {
+        // Display the quizzes
+        // ...
+     
+    } else {
+        // No quizzes found in the database
+        echo "No quizzes found.";
+    }
+} catch (PDOException $e) {
+    // Handle any database errors
+    echo "An error occurred: " . $e->getMessage();
+}
+?>
           <?php foreach ($quizzes as $quiz): ?>
             <li>
               <h3>
