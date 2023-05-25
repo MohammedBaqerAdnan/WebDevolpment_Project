@@ -114,12 +114,6 @@ $sql7 = "SELECT COUNT(*)
          AND table_name = 'questions'
          AND column_name = 'correct_answer'";
 
-$sql8 = "CREATE TABLE IF NOT EXISTS correct_answers (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    question_id INT,
-    answer_text VARCHAR(255),
-    FOREIGN KEY (question_id) REFERENCES questions(id)
-)";
 
 
 
@@ -136,7 +130,6 @@ try {
     if ($result == 0) {
         $connection->exec("ALTER TABLE questions ADD COLUMN correct_answer VARCHAR(255)");
     }
-    $connection->exec($sql8);
     // echo "Tables created successfully";
 } catch (PDOException $e) {
     // Output error message if table creation fails
