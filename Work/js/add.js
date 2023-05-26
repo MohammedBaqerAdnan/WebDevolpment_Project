@@ -1,3 +1,4 @@
+
 const questionContainer = document.getElementById("question_container");
 const addQuestionBtn = document.getElementById("addquestion");
 const submitBtn = document.getElementById("submit");
@@ -30,18 +31,18 @@ function createOptionContainer(questionType, index) {
           <label class="form-check-label" for="option5">Strongly Agree</label>
         </div>`;
       break;
-    case "yesno":
-      optionContainer.innerHTML = `
-        <label>Yes or No Options:</label>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="yesno${index}" id="yes" value="or">
-          <label class="form-check-label" for="yes">Yes</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="yesno${index}" id="no" value="no">
-          <label class="form-check-label" for="no">No</label>
-        </div>`;
-      break;
+      case "yesno":
+        optionContainer.innerHTML = `
+          <label>Yes or No Options:</label>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="yesno${index}" id="yes" value="yes">
+            <label class="form-check-label" for="yes">Yes</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="yesno${index}" id="no" value="no">
+            <label class="form-check-label" for="no">No</label>
+          </div>`;
+        break;
     case "shortanswer":
       optionContainer.innerHTML = `
         <label for="short_answer_text">Short Answer:</label>
@@ -64,7 +65,7 @@ function createOptionContainer(questionType, index) {
           <input type="text" class="form-control" placeholder="Option 3" name="mcq_option3_text">
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="mcq${index}" id="mcq_option4" value="option3">
+          <input class="form-check-input" type="radio" name="mcq${index}" id="mcq_option4" value="option4">
           <input type="text" class="form-control" placeholder="Option 4" name="mcq_option4_text">
         </div>`;
       break;
@@ -148,6 +149,7 @@ function removeQuestion(question) {
 
 // Event listeners
 addQuestionBtn.addEventListener("click", addQuestion);
+// ...
 
 // Renumber questions when a question is removed
 function renumberQuestions() {
@@ -174,94 +176,60 @@ function initializeQuestionListeners() {
 }
 
 initializeQuestionListeners();
-// In the add.js file, add the following function to collect the quiz data
 
-// function collectQuizData() {
-//   const quizData = {
-//     title: document.getElementById("quiz_title").value,
-//     description: document.getElementById("quiz_description").value, // Changed "quiz" to "quiz_description"
-//     questions: [],
-//   };
+// ...
 
-//   const questions = document.querySelectorAll(".question");
-//   questions.forEach((question) => {
-//     const question_text_element = question.querySelector("textarea[name='question_text']");
-//     const question_type_element = question.querySelector("select[name='question_type']");
-
-//     const questionData = {
-//       question_text: question_text_element ? question_text_element.value : "",
-//       question_type: question_type_element ? question_type_element.value : "",
-//       options: [],
-//     };
-
-//     if (questionData.question_type === "mcq") {
-//       const mcqOptions = question.querySelectorAll("input[type='text']");
-//       mcqOptions.forEach((option) => { // Added the arrow (=>) in the arrow function
-//         questionData.options.push(option.value);
-//       });
-//     }
-
-//     quizData.questions.push(questionData);
-//   });
-
-//   return quizData;
-// }
 function collectQuizData() {
   const quizData = {
     title: document.getElementById("quiz_title").value,
     description: document.getElementById("quiz_description").value,
     questions: [],
   };
-
+  
   const questions = document.querySelectorAll(".question");
   questions.forEach((question) => {
     const question_text_element = question.querySelector("textarea[name='question_text']");
     const question_type_element = question.querySelector("select[name='question_type']");
-
+    
     const questionData = {
       question_text: question_text_element ? question_text_element.value : "",
       question_type: question_type_element ? question_type_element.value : "",
       options: [],
+      correct_answer: ""
     };
-
+    
     if (questionData.question_type === "mcq") {
       const mcqOptions = question.querySelectorAll("input[type='text']");
-      mcqOptions.forEach((option) => {
+      const mcqRadios = question.querySelectorAll("input[type='radio']");
+    
+      mcqOptions.forEach((option, i) => {
+        if (mcqRadios[i].checked) {
+          questionData.correct_answer = option.value;
+        }
         questionData.options.push(option.value);
       });
+    } else if (questionData.question_type === "shortanswer") {
+      const shortAnswerInput = question.querySelector("input[type='text']");
+      questionData.correct_answer = shortAnswerInput.value;
+    } else if (questionData.question_type === "yesno") {
+      const yesRadio = question.querySelector("input[value='yes']");
+      const noRadio = question.querySelector("input[value='no']");
+      if (yesRadio.checked) {
+        questionData.correct_answer = "yes";    
+    } else if (noRadio.checked) {
+        questionData.correct_answer = "no";
     }
-
+    }
     quizData.questions.push(questionData);
   });
-
-  return quizData;
+  
+  return quizData;  
 }
-// Add event listener for the submit button
-// submitBtn.addEventListener("click", submitForm);
 
-// function submitForm() {
-//   const quizData = collectQuizData();
-
-//   // Send the quiz data using the fetch function
-//   fetch("process-form.php", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(quizData),
-//   })
-//     .then((response) => response.text())
-//     .then((data) => {
-//       console.log(data);
-//       // Redirect to the admin page
-//       window.location.href = "admin-index.php";
-//     })
-//     .catch((error) => {
-//       console.error("Error:", error);
-//     });
-// }
 function submitForm(event) {
-  event.preventDefault();
+  event.preventDefault(); // Prevent the default form submission behavior
+
+  // Rest of the code for collecting and processing quiz data
   const quizData = collectQuizData();
 
   // Send the quiz data using the fetch function
@@ -282,9 +250,7 @@ function submitForm(event) {
       console.error("Error:", error);
     });
 }
+
+
 const quizForm = document.getElementById("quiz_form");
 quizForm.addEventListener("submit", submitForm);
-
-
-// In the add.js file, add the following function to collect the quiz data
-
