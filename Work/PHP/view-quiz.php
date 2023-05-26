@@ -35,16 +35,7 @@
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="admin-quizzes.php">Quizzes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="admin-questions.php">Questions</a>
-                        </li>
-                    </ul>
-                </div>
+                <div class="collapse navbar-collapse" id="navbarNav">               </div>
             </div>
         </nav>
     </header>
@@ -55,7 +46,7 @@
                 <?= htmlspecialchars($quiz['title']) ?>
             </h2>
             <p>
-                <?= htmlspecialchars($quiz['']) ?>
+                <?= htmlspecialchars(isset($quiz[''])) ?>
             </p>
 
             <!-- Display the statistics for each question -->
